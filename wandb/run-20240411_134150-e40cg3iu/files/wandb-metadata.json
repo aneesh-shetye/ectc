@@ -1,0 +1,288 @@
+{
+    "os": "Linux-5.14.0-284.40.1.el9_2.x86_64-x86_64-with-glibc2.31",
+    "python": "3.12.1",
+    "heartbeatAt": "2024-04-11T17:41:50.575942",
+    "startedAt": "2024-04-11T17:41:50.179629",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/scratch/axs10302/ectc/pretrain_ectc.py",
+    "codePathLocal": "pretrain_ectc.py",
+    "codePath": "pretrain_ectc.py",
+    "git": {
+        "remote": "https://github.com/aneesh-shetye/ectc.git",
+        "commit": "50771e9fa13cfeba273bd00f1387871c004e76af"
+    },
+    "email": null,
+    "root": "/scratch/axs10302/ectc",
+    "host": "gv008.hpc.nyu.edu",
+    "username": "axs10302",
+    "executable": "/ext3/miniconda3/bin/python",
+    "cpu_count": 48,
+    "cpu_count_logical": 48,
+    "cpu_freq": {
+        "current": 3109.294625,
+        "min": 0.0,
+        "max": 0.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 3301.445,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3507.687,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3501.421,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3500.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3510.941,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3501.114,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3512.079,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3600.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2900.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3517.644,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3514.765,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3522.065,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3500.619,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3499.998,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3004.908,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3116.629,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3004.976,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3008.284,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3013.271,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2999.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.001,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2999.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2999.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3004.43,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2999.999,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 3000.0,
+            "min": 0.0,
+            "max": 0.0
+        },
+        {
+            "current": 2999.999,
+            "min": 0.0,
+            "max": 0.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 14.87847900390625,
+            "used": 8.752182006835938
+        }
+    },
+    "gpu": "Tesla V100-PCIE-32GB",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "Tesla V100-PCIE-32GB",
+            "memory_total": 34359738368
+        }
+    ],
+    "memory": {
+        "total": 377.06296157836914
+    }
+}

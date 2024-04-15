@@ -1,0 +1,29 @@
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_setup.py:_flush():76] Current SDK version is 0.16.3
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_setup.py:_flush():76] Configure stats pid to 1269522
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_setup.py:_flush():76] Loading settings from /home/axs10302/.config/wandb/settings
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_setup.py:_flush():76] Loading settings from /scratch/axs10302/ectc/wandb/settings
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_setup.py:_flush():76] Loading settings from environment variables: {}
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_setup.py:_flush():76] Applying setup settings: {'_disable_service': False}
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_setup.py:_flush():76] Inferring run settings from compute environment: {'program_relpath': 'pretrain_ectc.py', 'program_abspath': '/scratch/axs10302/ectc/pretrain_ectc.py', 'program': '/scratch/axs10302/ectc/pretrain_ectc.py'}
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_init.py:_log_setup():526] Logging user logs to /scratch/axs10302/ectc/wandb/run-20240409_120856-g0a2u5l6/logs/debug.log
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_init.py:_log_setup():527] Logging internal logs to /scratch/axs10302/ectc/wandb/run-20240409_120856-g0a2u5l6/logs/debug-internal.log
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_init.py:init():566] calling init triggers
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_init.py:init():573] wandb.init called with sweep_config: {}
+config: {'workers': 5, 'world_size': 1, 'print_freq': 5, 'root': PosixPath('.'), 'checkpoint_dir': PosixPath('checkpoint'), 'load': False, 'start_epoch': 0, 'epochs': 30, 'batch_size': 2, 'learning_rate': 1e-05, 'momentum': 0.95, 'clip': 100, 'betas': (0.9, 0.98), 'eps': 1e-09, 'lambd': 0.5, 'optimizer': 'adam', 'proj_dim': 512, 'text_encoder': 'bert-base-multilingual-uncased', 'mbert_out_size': 512, 'rank': 0, 'dist_url': 'tcp://localhost:58472', 'ngpus_per_node': 1}
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_init.py:init():616] starting backend
+2024-04-09 12:08:56,149 INFO    MainThread:1269522 [wandb_init.py:init():620] setting up manager
+2024-04-09 12:08:56,150 INFO    MainThread:1269522 [backend.py:_multiprocessing_setup():105] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2024-04-09 12:08:56,152 INFO    MainThread:1269522 [wandb_init.py:init():628] backend started and connected
+2024-04-09 12:08:56,154 INFO    MainThread:1269522 [wandb_init.py:init():720] updated telemetry
+2024-04-09 12:08:56,159 INFO    MainThread:1269522 [wandb_init.py:init():753] communicating run to backend with 90.0 second timeout
+2024-04-09 12:08:56,378 INFO    MainThread:1269522 [wandb_run.py:_on_init():2262] communicating current version
+2024-04-09 12:08:56,438 INFO    MainThread:1269522 [wandb_run.py:_on_init():2271] got version response upgrade_message: "wandb version 0.16.6 is available!  To upgrade, please run:\n $ pip install wandb --upgrade"
+
+2024-04-09 12:08:56,438 INFO    MainThread:1269522 [wandb_init.py:init():804] starting run threads in backend
+2024-04-09 12:09:00,812 INFO    MainThread:1269522 [wandb_run.py:_console_start():2241] atexit reg
+2024-04-09 12:09:00,812 INFO    MainThread:1269522 [wandb_run.py:_redirect():2096] redirect: wrap_raw
+2024-04-09 12:09:00,812 INFO    MainThread:1269522 [wandb_run.py:_redirect():2161] Wrapping output streams.
+2024-04-09 12:09:00,813 INFO    MainThread:1269522 [wandb_run.py:_redirect():2186] Redirects installed.
+2024-04-09 12:09:00,814 INFO    MainThread:1269522 [wandb_init.py:init():847] run started, returning control to user process
+2024-04-09 12:09:00,814 INFO    MainThread:1269522 [wandb_run.py:_config_callback():1343] config_cb None None {'workers': 5, 'world_size': 1, 'print_freq': 5, 'root': '.', 'checkpoint_dir': 'checkpoint', 'load': False, 'start_epoch': 0, 'epochs': 30, 'batch_size': 2, 'learning_rate': 1e-05, 'momentum': 0.95, 'clip': 100, 'betas': [0.9, 0.98], 'eps': 1e-09, 'lambd': 0.5, 'optimizer': 'adam', 'proj_dim': 512, 'text_encoder': 'bert-base-multilingual-uncased', 'mbert_out_size': 512, 'rank': 0, 'dist_url': 'tcp://localhost:58472', 'ngpus_per_node': 1}
+2024-04-09 12:10:19,233 WARNING MsgRouterThr:1269522 [router.py:message_loop():77] message_loop has been closed

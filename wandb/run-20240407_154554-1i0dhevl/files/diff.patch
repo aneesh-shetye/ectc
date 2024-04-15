@@ -1,0 +1,74 @@
+diff --git a/pretrain_ectc.py b/pretrain_ectc.py
+index 012e7a0..4b8026b 100644
+--- a/pretrain_ectc.py
++++ b/pretrain_ectc.py
+@@ -79,6 +79,8 @@ parser.add_argument('--optimizer', default='adam', type=str, metavar='OP',
+ #region: tokenizer
+ parser.add_argument('--text_encoder', default='bert-base-multilingual-uncased', type=str, metavar='T',
+                     help='text encoder')
++parser.add_argument('--mbert_out_size', default=512, type=int, metavar='S',
++                    help='dimension of encoder (mbert) output')
+ #endregion
+ 
+ 
+@@ -106,19 +108,17 @@ def pretrain(gpu, args):
+     
+     if args.rank == 0: 
+ 
+-        '''
+         wandb.init(config=args, project='ectc')
+         wandb.run.name = f"pc-dry-run-{wandb.run.id}"
+         wandb.config.update(args)
+         config = wandb.config
+         wandb.run.save()
+-        '''
+ 
+         checkpoint_dir = args.root.joinpath(args.checkpoint_dir)
+         if not os.path.exists(checkpoint_dir): 
+             os.makedirs(checkpoint_dir)
+         
+-        stats_file = open(checkpoint_dir / '')
++        #stats_file = open(checkpoint_dir / 'stats_file.txt')
+ 
+     torch.cuda.set_device(gpu)
+     torch.backends.cudnn.benchmark = True
+@@ -127,14 +127,14 @@ def pretrain(gpu, args):
+     # dataset =  load_dataset("stas/wmt14-en-de-pre-processed")
+ 
+     #load dataset
+-    dataset = dataset("bentrevett/multi30k")
++    dataset = load_dataset("bentrevett/multi30k")
+ 
+     assert args.batch_size%args.world_size == 0 
+     per_device_batch_size = args.batch_size // args.world_size
+ 
+     train_sampler = torch.utils.data.distributed.DistributedSampler(dataset['train'])
+     train_loader = DataLoader(dataset['train'], batch_size=per_device_batch_size, 
+-                              shuffle=True, num_workers=args.workers, pin_memory=True, sampler=train_sampler, 
++                              shuffle=False, num_workers=args.workers, pin_memory=True, sampler=train_sampler, 
+                               collate_fn=MyCollate(tokenizer))
+ 
+     
+@@ -184,16 +184,19 @@ def pretrain(gpu, args):
+             off_diag = off_diagonal(corr).pow_(2).sum()
+             loss = on_diag + args.lambd * off_diag
+ 
++            wandb.log({"iter loss": loss})
+             loss.backwards()
+             torch.nn.utils.clip_grad_norm_(pretrainer.parameters(), args.clip)
+             optimizer.step()
+ 
+             epoch_loss += loss.item()
+             counter += 1
++        wandb.log({"epoch loss": loss})
+ 
+     
++if __name__ == '__main__': 
++    main()
++    wandb.finish()
++
+ 
+ 
+-    
+-    
+-    

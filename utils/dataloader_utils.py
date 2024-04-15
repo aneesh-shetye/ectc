@@ -10,6 +10,7 @@ class MyCollate():
         eng = [item['en'].lower() for item in batch] 
         de = [item['de'].lower() for item in batch] 
 
+        self.tokenizer = self.tokenizer
         eng_batch = self.tokenizer(eng, max_length=256, 
                                    padding='max_length', 
                                    truncation=True, 

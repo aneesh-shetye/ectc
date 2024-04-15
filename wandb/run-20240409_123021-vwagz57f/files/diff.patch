@@ -1,0 +1,172 @@
+diff --git a/ectc.py b/ectc.py
+index 98e94a8..6cdc4f8 100644
+--- a/ectc.py
++++ b/ectc.py
+@@ -6,12 +6,13 @@ class ContextEnhance(nn.Module):
+     
+     def __init__(self, 
+                  encoder, #an encoder model  
+-                 pooling, # a pooling funciton to aggregate encoder outputs
++                 #pooling, # a pooling funciton to aggregate encoder outputs
+                  proj: nn.Module 
+                  ): 
+ 
++        super().__init__()
+         self.encoder = encoder 
+-        self.pooling = pooling 
++        #self.pooling = pooling 
+         self.proj = proj 
+     
+     def forward(self,
+@@ -40,4 +41,4 @@ class ContextEnhance(nn.Module):
+        #C.shape = (emb_dim2, emb_dim2)
+        
+        return c 
+-       
+\ No newline at end of file
++       
+diff --git a/pretrain_ectc.py b/pretrain_ectc.py
+index 012e7a0..9cfa9ff 100644
+--- a/pretrain_ectc.py
++++ b/pretrain_ectc.py
+@@ -55,7 +55,7 @@ parser.add_argument('--start_epoch',default=0, type=int,
+         help='start epoch of the pretraining phase')
+ 
+ #region: training hyperparameters: 
+-parser.add_argument('--epochs', default=30, type=int, metavar='N',
++parser.add_argument('--epochs', default=10, type=int, metavar='N',
+                     help='number of total epochs to run')
+ parser.add_argument('--batch_size', default=2, type=int, metavar='n',
+                     help='mini-batch size')
+@@ -76,9 +76,16 @@ parser.add_argument('--optimizer', default='adam', type=str, metavar='OP',
+                     help='selecting optimizer')
+ #endregion
+ 
++#region: transformer hyperparameters: 
++
++parser.add_argument('--proj_dim', default=512, type=int, metavar='D',
++                    help='output dimension of the projection layer')
++
+ #region: tokenizer
+ parser.add_argument('--text_encoder', default='bert-base-multilingual-uncased', type=str, metavar='T',
+                     help='text encoder')
++parser.add_argument('--mbert_out_size', default=512, type=int, metavar='S',
++                    help='dimension of encoder (mbert) output')
+ #endregion
+ 
+ 
+@@ -106,19 +113,17 @@ def pretrain(gpu, args):
+     
+     if args.rank == 0: 
+ 
+-        '''
+         wandb.init(config=args, project='ectc')
+         wandb.run.name = f"pc-dry-run-{wandb.run.id}"
+         wandb.config.update(args)
+         config = wandb.config
+         wandb.run.save()
+-        '''
+ 
+         checkpoint_dir = args.root.joinpath(args.checkpoint_dir)
+         if not os.path.exists(checkpoint_dir): 
+             os.makedirs(checkpoint_dir)
+         
+-        stats_file = open(checkpoint_dir / '')
++        #stats_file = open(checkpoint_dir / 'stats_file.txt')
+ 
+     torch.cuda.set_device(gpu)
+     torch.backends.cudnn.benchmark = True
+@@ -127,19 +132,19 @@ def pretrain(gpu, args):
+     # dataset =  load_dataset("stas/wmt14-en-de-pre-processed")
+ 
+     #load dataset
+-    dataset = dataset("bentrevett/multi30k")
++    dataset = load_dataset("bentrevett/multi30k")
+ 
+     assert args.batch_size%args.world_size == 0 
+     per_device_batch_size = args.batch_size // args.world_size
+ 
+     train_sampler = torch.utils.data.distributed.DistributedSampler(dataset['train'])
+     train_loader = DataLoader(dataset['train'], batch_size=per_device_batch_size, 
+-                              shuffle=True, num_workers=args.workers, pin_memory=True, sampler=train_sampler, 
++                              shuffle=False, num_workers=args.workers, pin_memory=True, sampler=train_sampler, 
+                               collate_fn=MyCollate(tokenizer))
+ 
+     
+     #model to pretrain
+-    encoder = BertModel.from_pretrained(args.text_encoder)
++    encoder = BertModel.from_pretrained(args.text_encoder).cuda(gpu)
+ 
+     checkpoint = os.path.join(checkpoint_dir, "enc_ckpt.pth")
+     if args.load and os.path.exists(checkpoint): 
+@@ -148,15 +153,15 @@ def pretrain(gpu, args):
+         encoder.load_state_dict(ckpt['model'])
+         print("Model Loaded")
+ 
+-    encoder.cuda(gpu)
++    encoder = encoder.cuda(gpu)
+ 
+-    proj_layer = nn.Linear(args.mbert_out_size, args.proj_dim).cuda(gpu)
++    proj_layer = nn.Linear(args.mbert_out_size, args.proj_dim).cuda(gpu) 
+     pretrainer = ContextEnhance(encoder, proj_layer).cuda(gpu)
+ 
+     if args.optimizer == 'adam': 
+-        optimizer = torch.optim.Adam(lr=args.learning_rate)
++        optimizer = torch.optim.Adam(pretrainer.parameters(), lr=args.learning_rate).cuda(gpu)
+     else: 
+-        optimizer = torch.optim.SGD(lr=args.learning_rate)
++        optimizer = torch.optim.SGD( pretrainer.parameters(), lr=args.learning_rate).cuda(gpu) 
+     
+ 
+     for epoch in range(args.start_epoch, args.epochs): 
+@@ -170,11 +175,11 @@ def pretrain(gpu, args):
+         
+         for step, item in enumerate(train_loader, start=epoch*len(train_loader)): 
+             
+-            src = item['eng_batch'] 
+-            tgt = item['de_batch']
++            src = item[0] 
++            tgt = item[1]
+ 
+-            src.cuda(gpu)
+-            tgt.cuda(gpu)
++            src = src.cuda(gpu)
++            tgt = tgt.cuda(gpu)
+ 
+             optimizer.zero_grad()
+ 
+@@ -184,16 +189,19 @@ def pretrain(gpu, args):
+             off_diag = off_diagonal(corr).pow_(2).sum()
+             loss = on_diag + args.lambd * off_diag
+ 
++            wandb.log({"iter loss": loss})
+             loss.backwards()
+             torch.nn.utils.clip_grad_norm_(pretrainer.parameters(), args.clip)
+             optimizer.step()
+ 
+             epoch_loss += loss.item()
+             counter += 1
++        wandb.log({"epoch loss": loss})
+ 
+     
++if __name__ == '__main__': 
++    main()
++    wandb.finish()
++
+ 
+ 
+-    
+-    
+-    
+diff --git a/utils/dataloader_utils.py b/utils/dataloader_utils.py
+index 079cbb2..939488c 100644
+--- a/utils/dataloader_utils.py
++++ b/utils/dataloader_utils.py
+@@ -10,6 +10,7 @@ class MyCollate():
+         eng = [item['en'].lower() for item in batch] 
+         de = [item['de'].lower() for item in batch] 
+ 
++        self.tokenizer = self.tokenizer.to(device)  
+         eng_batch = self.tokenizer(eng, max_length=256, 
+                                    padding='max_length', 
+                                    truncation=True, 

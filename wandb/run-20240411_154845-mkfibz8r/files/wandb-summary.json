@@ -1,0 +1,1 @@
+{"image": {"_type": "image-file", "sha256": "bc8458c865f5ff4534bad09d4321852f67b1379b85bf5a2ade6ef16ecd790d7a", "size": 797, "path": "media/images/image_0_bc8458c865f5ff4534ba.png", "format": "png", "width": 1, "height": 512, "caption": "corr_mat"}, "_timestamp": 1712864958.4894526, "_runtime": 32.89618968963623, "_step": 0, "_wandb": {"runtime": 36}}
